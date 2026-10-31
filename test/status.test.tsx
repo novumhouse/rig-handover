@@ -17,4 +17,15 @@ describe('status board', () => {
     const res = await createApp(config).request('/health');
     expect(await res.json()).toEqual({ ok: true, lane: 'lane-07' });
   });
+
+  it('links both nights on disk to a digest that renders', async () => {
+    const app = createApp(config);
+    const html = await (await app.request('/')).text();
+    expect(html).toContain('href="/digest/2026-10-28"');
+    expect(html).toContain('10 ok · 4 retry · 1 fail');
+    expect(html).toContain('href="/digest/2026-10-27"');
+    expect(html).toContain('7 ok · 0 retry · 0 fail');
+    expect((await app.request('/digest/2026-10-28')).status).toBe(200);
+    expect((await app.request('/digest/2026-10-27')).status).toBe(200);
+  });
 });
