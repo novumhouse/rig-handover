@@ -1,5 +1,4 @@
-// Morning digest contract. Section 2 starts against this file.
-// The reader issue replaces the body of readNight; the signature stays.
+// Morning digest contract. Callers import `readNight` from here.
 
 export type RunStatus = 'ok' | 'retry' | 'fail';
 
@@ -27,8 +26,4 @@ export type NightDigest = {
   empty: boolean;
 };
 
-export function readNight(runsDir: string, night: string): NightDigest {
-  void runsDir;
-  void night;
-  throw new Error('readNight is not implemented');
-}
+export { NightMissingError, readNight } from './read-night.js';
